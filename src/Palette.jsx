@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Colorbox from "./Colorbox";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import "./Palette.css";
 
 class Palette extends Component {
