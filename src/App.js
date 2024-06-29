@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       {/* <Palette {...Seedpalette[4]} /> */}
-      <Palette palette={generatePalette(Seedpalette[4])} />
+      <Palette palette={generatePalette(Seedpalette[1])} />
     </div>
   );
 }
