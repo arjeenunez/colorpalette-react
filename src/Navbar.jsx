@@ -56,12 +56,13 @@ class Navbar extends Component {
                         ContentProps={{ "aria-describedby": "message-id" }}
                         onClose={this.closeSnackBar}
                         action={[
-                            <IconButton>
-                                <Close
-                                    onClick={this.closeSnackBar}
-                                    color="inherit"
-                                    key="close"
-                                    aria-label="close" />
+                            <IconButton
+                                onClick={this.closeSnackBar}
+                                color="inherit"
+                                key="close"
+                                aria-label="close"
+                            >
+                                <Close/>
                             </IconButton>
                         ]}
                     />

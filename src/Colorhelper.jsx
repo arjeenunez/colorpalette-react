@@ -6,7 +6,7 @@ export default function generatePalette(starterPalette) {
     let newPalette = {
         paletteName: starterPalette.paletteName,
         id: starterPalette.id,
-        emoji: starterPalette.id,
+        emoji: starterPalette.emoji,
         colors: []
     }
     for (const level of levels) {
