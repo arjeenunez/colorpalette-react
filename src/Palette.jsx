@@ -7,8 +7,9 @@ class Palette extends Component {
         super(props);
     }
     render() {
-        const palette = this.props;
-        const colorBoxes = palette.colors.map((color, idx) => (
+        const { palette } = this.props;
+        const colors = palette.colors[500];
+        const colorBoxes = colors.map((color, idx) => (
             <Colorbox key={idx} background={color} />
         ));
         return (
