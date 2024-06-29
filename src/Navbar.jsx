@@ -1,28 +1,46 @@
 import React, { Component } from "react";
 import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
-import "./Navbar.css"
+import "./Navbar.css";
+import { MenuItem, Select } from "@mui/material";
 
 class Navbar extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { format: "hex" };
+        this.handleChange = this.handleChange.bind(this);
+    }
+    handleChange(evt) {
+        this.setState({ format: evt.target.value });
+        this.props.changeFormat(evt.target.value);
+    }
     render() {
+        const { level, changeLevel } = this.props;
+        const format = this.state.format;
         return (
             <header className="Navbar">
                 <div className="logo">
                     <a href="">reactcolorpicker</a>
                 </div>
                 <div className="slider-container">
-                    <span>Level: {this.props.level} </span>
+                    <span>Level: {level} </span>
                     <div className="slider">
                         <Slider
-                            defaultValue={this.props.level}
+                            defaultValue={level}
                             min={100}
                             max={900}
-                            onChange={this.props.changeLevel}
+                            onChange={changeLevel}
                             step={100}
-
                         />
                     </div>
-
+                </div>
+                <div className="select-container">
+                    <Select value={format} onChange={this.handleChange} >
+                        <MenuItem value={""}>None</MenuItem>
+                        <MenuItem value={"hex"}>HEX - #fff</MenuItem>
+                        <MenuItem value={"rgb"}>RGB - rgb(255, 255, 255)</MenuItem>
+                        <MenuItem value={"rgba"}>RGBA - rgb(255, 255, 255, 1.0)</MenuItem>
+                    </Select>
                 </div>
             </header>
         )
