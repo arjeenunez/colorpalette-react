@@ -50,3 +50,8 @@
     border: none;
     box-shadow: none;
 }
+
+.select-container {
+    margin-left: auto;
+    margin-right: 1rem;
+}
