@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import MiniPalette from "./MiniPalette";
 import { styled } from "@mui/material/styles"
 
@@ -32,7 +31,8 @@ const Palettes = styled("div")({
     display: "grid",
     gridTemplateColumns: "repeat(3, 30%)",
     gap: "5%"
-})
+});
+
 
 class PaletteList extends Component {
     render() {

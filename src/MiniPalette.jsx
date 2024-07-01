@@ -1,6 +1,7 @@
 import React from "react";
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 
 const Root = styled("div")({
     background: "white",
@@ -29,7 +30,7 @@ const Title = styled("h5")({
     margin: "0",
     color: "black",
     paddingTop: "0.5rem",
-    fontSize: "1rem",
+    fontSize: "0.8rem",
     position: "relative"
 })
 
@@ -48,16 +49,18 @@ const Minicolorboxes = styled("div")({
 })
 
 function MiniPalette(props) {
-    const { paletteName: name, colors, emoji } = props;
+    const { paletteName: name, colors, emoji, id } = props;
+    const Navigate = useNavigate();
     const miniColorBoxes = colors.map(color => (
         <Minicolorboxes sx={{ backgroundColor: color.color }} key={color.name}></Minicolorboxes>
     ))
+    const handleClick = () => Navigate(`/palette/${id}`);
     return (
-        <Root className="root">
-            <Colors className="colors">
+        <Root onClick={handleClick}>
+            <Colors>
                 { miniColorBoxes }
             </Colors>
-            <Title className="title">{name} <Emoji className="emoji">{emoji}</Emoji></Title>
+            <Title>{name} <Emoji>{emoji}</Emoji></Title>
         </Root>
     )
 }
