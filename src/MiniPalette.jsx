@@ -15,7 +15,11 @@ const Root = styled("div")({
 })
 
 const Colors = styled("div")({
-    backgroundColor: "grey",
+    backgroundColor: "#dae1e4",
+    height: "150px",
+    width: "100%",
+    borderRadius: "5px",
+    overflow: "hidden"
 })
 
 const Title = styled("h5")({
@@ -34,11 +38,25 @@ const Emoji = styled("span")({
     fontSize: "1.5rem"
 })
 
+const Minicolorboxes = styled("div")({
+    height: "25%",
+    width: "20%",
+    display: "inline-block",
+    margin: "0 auto",
+    position: "relative",
+    marginBottom: "-3.5px"
+})
+
 function MiniPalette(props) {
     const { paletteName: name, colors, emoji } = props;
+    const miniColorBoxes = colors.map(color => (
+        <Minicolorboxes sx={{ backgroundColor: color.color }} key={color.name}></Minicolorboxes>
+    ))
     return (
         <Root className="root">
-            <Colors className="colors"></Colors>
+            <Colors className="colors">
+                { miniColorBoxes }
+            </Colors>
             <Title className="title">{name} <Emoji className="emoji">{emoji}</Emoji></Title>
         </Root>
     )
