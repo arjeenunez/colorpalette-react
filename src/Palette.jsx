@@ -17,7 +17,7 @@ function Palette({ palette }) {
 
     const colors = palette.colors[level];
     const colorBoxes = colors.map((color, idx) => (
-        <Colorbox key={color.id} name={color.name} format={color[format]} id={color.id} />
+        <Colorbox key={color.id} name={color.name} format={color[format]} id={color.id} showLink={true} />
     ));
     return (
         <div className="Palette">
