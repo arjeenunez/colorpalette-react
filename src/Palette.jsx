@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Colorbox from "./Colorbox";
 import "./Palette.css";
 import Navbar from "./Navbar";
-
+// import { useLocation } from "react-router-dom";
 
 class Palette extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class Palette extends Component {
         const { palette } = this.props;
         const colors = palette.colors[this.state.level];
         const colorBoxes = colors.map((color, idx) => (
-            <Colorbox key={color.id} name={color.name} format={color[this.state.format]} paletteId={palette.id} />
+            <Colorbox key={color.id} name={color.name} format={color[this.state.format]} paletteId={palette.id} id={color.id} />
         ));
         return (
             <div className="Palette">
