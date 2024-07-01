@@ -33,25 +33,41 @@ const Palettes = styled("div")({
     gap: "5%"
 });
 
-
-class PaletteList extends Component {
-    render() {
-        const { palettes } = this.props;
-        return (
-            <Root>
-                <MyContainer>
-                    <MyNav>
-                        <h1>React Colors</h1>
-                    </MyNav>
-                    <Palettes>
-                        {palettes.map(el => (
-                            <MiniPalette exact to={`/palette/${el.id}`} key={el.id} {...el} />
-                        ))}
-                    </Palettes>
-                </MyContainer>
-            </Root>
-        )
-    }
+function PaletteList({ palettes }) {
+    return (
+        <Root>
+            <MyContainer>
+                <MyNav>
+                    <h1>React Colors</h1>
+                </MyNav>
+                <Palettes>
+                    {palettes.map(el => (
+                        <MiniPalette exact to={`/palette/${el.id}`} key={el.id} {...el} />
+                    ))}
+                </Palettes>
+            </MyContainer>
+        </Root>
+    )
 }
+
+// class PaletteList extends Component {
+//     render() {
+//         const { palettes } = this.props;
+//         return (
+//             <Root>
+//                 <MyContainer>
+//                     <MyNav>
+//                         <h1>React Colors</h1>
+//                     </MyNav>
+//                     <Palettes>
+//                         {palettes.map(el => (
+//                             <MiniPalette exact to={`/palette/${el.id}`} key={el.id} {...el} />
+//                         ))}
+//                     </Palettes>
+//                 </MyContainer>
+//             </Root>
+//         )
+//     }
+// }
 
 export default PaletteList;
