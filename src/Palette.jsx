@@ -21,7 +21,7 @@ class Palette extends Component {
         const { palette } = this.props;
         const colors = palette.colors[this.state.level];
         const colorBoxes = colors.map((color, idx) => (
-            <Colorbox key={color.id} name={color.name} format={color[this.state.format]} />
+            <Colorbox key={color.id} name={color.name} format={color[this.state.format]} paletteId={palette.id} />
         ));
         return (
             <div className="Palette">
