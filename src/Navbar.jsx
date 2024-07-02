@@ -7,7 +7,7 @@ import { Close } from "@mui/icons-material"
 import { Link } from "react-router-dom";
 
 function Navbar({ level, changeLevel, changeFormat }) {
-    
+
     const [format, updateFormat] = useState("hex");
     const [open, toggleOpen] = useState(false);
 
@@ -26,18 +26,20 @@ function Navbar({ level, changeLevel, changeFormat }) {
             <div className="logo">
                 <Link exact to={"/"}>reactcolorpicker</Link>
             </div>
-            <div className="slider-container">
-                <span>Level: {level} </span>
-                <div className="slider">
-                    <Slider
-                        defaultValue={level}
-                        min={100}
-                        max={900}
-                        onChange={changeLevel}
-                        step={100}
-                    />
+            {level && (
+                <div className="slider-container">
+                    <span>Level: {level} </span>
+                    <div className="slider">
+                        <Slider
+                            defaultValue={level}
+                            min={100}
+                            max={900}
+                            onChange={changeLevel}
+                            step={100}
+                        />
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="select-container">
                 <Select value={format} onChange={handleFormatChange} >
                     <MenuItem value={"hex"}>HEX - #fff</MenuItem>
