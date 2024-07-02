@@ -38,9 +38,9 @@
     transition: all ease-in 0.5s ;
 }
 
-.copy-button {
+/* .copy-button {
     opacity: 0;
-}
+} */
 
 .Colorbox:hover .copy-button {
     opacity: 1;
@@ -58,7 +58,7 @@
     font-size: 11px;
 }
 
-.see-more {
+/* .see-more {
     background: rgba(255, 255, 255, 0.3);
     position: absolute;
     border: none;
@@ -71,7 +71,7 @@
     line-height: 30px;
     text-transform: uppercase;
     margin: 0;
-}
+} */
 
 .copy-overlay {
     opacity: 0;
@@ -126,17 +126,9 @@
     text-transform: uppercase;
 }
 
-.copy-message p {
+/* .copy-message p {
     font-size: 2rem;
     font-weight: 100;
     margin: 0;
     padding: 0;
-}
-
-.light-text {
-    color: white;
-}
-
-.dark-text {
-    color: rgba(0, 0, 0, 0.5);
-}
+} */

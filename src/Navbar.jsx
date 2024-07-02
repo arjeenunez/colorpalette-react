@@ -1,10 +1,68 @@
 import React, { Component, useState } from "react";
 import Slider from "rc-slider";
 import 'rc-slider/assets/index.css';
-import "./Navbar.css";
 import { MenuItem, Select, Snackbar, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material"
 import { Link } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+
+const NavbarComponent = styled('header')`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 5vh;
+`;
+
+const LogoComponent = styled('div')`
+    margin-right: 15px;
+    padding: 0 13px;
+    font-size: 22px;
+    background-color: #eceff1;
+    font-family: 'Roboto', sans-serif;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    a, a:visited {
+        text-decoration: none;
+        color: black;
+    }
+`;
+
+const SliderComponent = styled("div")`
+    width: 340px;
+    margin: 0;
+    padding-left: 20px;
+    display: inline-block;
+
+    > .rc-slider-track {
+    background-color: transparent;
+    }
+
+    > .rc-slider-rail {
+        height: 8px;
+    }
+
+    > .rc-slider-handle, .rc-slider-handle:active, .rc-slider-handle:hover, .rc-slider-handle:focus {
+        background-color: green;
+        outline: none;
+        border: 2px solid green;
+        box-shadow: none;
+        width: 13px;
+        height: 13px;
+        margin-left: -7px;
+        margin-top: -3px;
+    }
+
+    > .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+        border: none;
+        box-shadow: none;
+    }
+`;
+const SelectContainerComponent = styled("div")`
+    margin-left: auto;
+    margin-right: 1rem;
+`;
 
 function Navbar({ level, changeLevel, changeFormat }) {
 
@@ -22,14 +80,14 @@ function Navbar({ level, changeLevel, changeFormat }) {
     }
 
     return (
-        <header className="Navbar">
-            <div className="logo">
+        <NavbarComponent>
+            <LogoComponent>
                 <Link exact to={"/"}>reactcolorpicker</Link>
-            </div>
+            </LogoComponent>
             {level && (
-                <div className="slider-container">
+                <div>
                     <span>Level: {level} </span>
-                    <div className="slider">
+                    <SliderComponent>
                         <Slider
                             defaultValue={level}
                             min={100}
@@ -37,16 +95,16 @@ function Navbar({ level, changeLevel, changeFormat }) {
                             onChange={changeLevel}
                             step={100}
                         />
-                    </div>
+                    </SliderComponent>
                 </div>
             )}
-            <div className="select-container">
+            <SelectContainerComponent>
                 <Select value={format} onChange={handleFormatChange} >
                     <MenuItem value={"hex"}>HEX - #fff</MenuItem>
                     <MenuItem value={"rgb"}>RGB - rgb(255, 255, 255)</MenuItem>
                     <MenuItem value={"rgba"}>RGBA - rgb(255, 255, 255, 1.0)</MenuItem>
                 </Select>
-            </div>
+            </SelectContainerComponent>
             <div>
                 <Snackbar
                     anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
@@ -67,76 +125,9 @@ function Navbar({ level, changeLevel, changeFormat }) {
                     ]}
                 />
             </div>
-        </header>
+        </NavbarComponent>
     )
 }
 
-// class Navbar extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = { format: "hex", open: false };
-//         this.handleFormatChange = this.handleFormatChange.bind(this);
-//         this.closeSnackBar = this.closeSnackBar.bind(this);
-//     }
-//     handleFormatChange(evt) {
-//         this.setState({ format: evt.target.value });
-//         this.props.changeFormat(evt.target.value);
-//         this.setState({open: true})
-//     }
-//     closeSnackBar() {
-//         this.setState({ open: false });
-//     }
-//     render() {
-//         const { level, changeLevel } = this.props;
-//         const format = this.state.format;
-//         return (
-//             <header className="Navbar">
-//                 <div className="logo">
-//                     <Link exact to={"/"}>reactcolorpicker</Link>
-//                     {/* <a href="">reactcolorpicker</a> */}
-//                 </div>
-//                 <div className="slider-container">
-//                     <span>Level: {level} </span>
-//                     <div className="slider">
-//                         <Slider
-//                             defaultValue={level}
-//                             min={100}
-//                             max={900}
-//                             onChange={changeLevel}
-//                             step={100}
-//                         />
-//                     </div>
-//                 </div>
-//                 <div className="select-container">
-//                     <Select value={format} onChange={this.handleFormatChange} >
-//                         <MenuItem value={"hex"}>HEX - #fff</MenuItem>
-//                         <MenuItem value={"rgb"}>RGB - rgb(255, 255, 255)</MenuItem>
-//                         <MenuItem value={"rgba"}>RGBA - rgb(255, 255, 255, 1.0)</MenuItem>
-//                     </Select>
-//                 </div>
-//                 <div>
-//                     <Snackbar
-//                         anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-//                         open={this.state.open}
-//                         autoHideDuration={3000}
-//                         message={<span id="message-id">Format has been changed to {format.toUpperCase()}</span>}
-//                         ContentProps={{ "aria-describedby": "message-id" }}
-//                         onClose={this.closeSnackBar}
-//                         action={[
-//                             <IconButton
-//                                 onClick={this.closeSnackBar}
-//                                 color="inherit"
-//                                 key="close"
-//                                 aria-label="close"
-//                             >
-//                                 <Close/>
-//                             </IconButton>
-//                         ]}
-//                     />
-//                 </div>
-//             </header>
-//         )
-//     }
-// }
 
 export default Navbar;

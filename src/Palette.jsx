@@ -1,8 +1,18 @@
 import React, { Component, useState } from "react";
 import Colorbox from "./Colorbox";
-import "./Palette.css";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
+import "./Palette.css";
+import { styled } from "@mui/material/styles";
+
+const PaletteComponent = styled("div")`
+    height: 100vh;
+    overflow: hidden;
+`;
+
+const PaletteColorsComponent = styled('div')`
+     height: 90%;
+`;
 
 function Palette({ palette }) {
     const [level, updateLevel] = useState(500);
@@ -21,48 +31,14 @@ function Palette({ palette }) {
         <Colorbox key={color.id} name={color.name} format={color[format]} id={color.id} showLink={true} />
     ));
     return (
-        <div className="Palette">
+        <PaletteComponent>
             <Navbar level={level} changeLevel={changeLevel} changeFormat={changeFormat} />
-            <div className="Palette-colors">
+            <PaletteColorsComponent>
                 { colorBoxes }
-            </div>
+            </PaletteColorsComponent>
             <PaletteFooter name={palette.paletteName} emoji={palette.emoji} />
-        </div>
+        </PaletteComponent>
     )
 }
-
-// class Palette extends Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = { level: 500, format: "hex" };
-//         this.changeLevel = this.changeLevel.bind(this);
-//         this.changeFormat = this.changeFormat.bind(this);
-//     }
-//     changeLevel(level) {
-//         this.setState({level: level})
-//     }
-//     changeFormat(format) {
-//         this.setState({format: format})
-//     }
-//     render() {
-//         const { palette } = this.props;
-//         const colors = palette.colors[this.state.level];
-//         const colorBoxes = colors.map((color, idx) => (
-//             <Colorbox key={color.id} name={color.name} format={color[this.state.format]} paletteId={palette.id} id={color.id} />
-//         ));
-//         return (
-//             <div className="Palette">
-//                 <Navbar level={this.state.level} changeLevel={this.changeLevel} changeFormat={this.changeFormat} />
-//                 <div className="Palette-colors">
-//                     { colorBoxes }
-//                 </div>
-//                 <footer className="Palette-footer">
-//                     {palette.paletteName}
-//                     <span className="emoji">{ palette.emoji }</span>
-//                 </footer>
-//             </div>
-//         )
-//     }
-// }
 
 export default Palette;
