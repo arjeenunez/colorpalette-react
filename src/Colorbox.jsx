@@ -20,13 +20,13 @@ function Colorbox({ format, name, id, showLink }) {
                     <div style={{ background: format }} className={`copy-overlay${isCopied}`}></div>
                     <div className={`copy-message${isCopied}`}>
                         <h1>copied!</h1>
-                        <p>{format}</p>
+                        <p className={isLightColor && "dark-text"}>{format}</p>
                     </div>
                     <div className="copy-container">
                         <div className="box-content">
                             <span className={isDarkColor && "light-text"}>{name}</span>
                         </div>
-                        <button className="copy-button">Copy</button>
+                    <button className={`copy-button ${isLightColor && "dark-text"}`}>Copy</button>
                     </div>
                     {showLink && (
                         <Link to={`${Location.pathname}/${id}`} onClick={e => e.stopPropagation()}>
