@@ -24,7 +24,7 @@
 .slider {
     width: 340px;
     margin: 0;
-    margin-left: 20px;
+    padding-left: 20px;
     display: inline-block;
 }
 

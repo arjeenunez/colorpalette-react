@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Seedpalette from "./Seedpalette";
 import generatePalette from "./Colorhelper";
 import Colorbox from "./Colorbox";
@@ -13,6 +13,7 @@ function SingleColorPalette() {
     };
     
     const { paletteId, colorId } = useParams();
+    const Navigate = useNavigate();
     const newPalette = generatePalette(Seedpalette.filter(el => el.id === paletteId)[0]);
     const colorArray = [];
     for (const color in newPalette.colors) {
@@ -20,13 +21,16 @@ function SingleColorPalette() {
     }
     const colors = [...colorArray.slice(1)];
     const colorBoxes = colors.map((color, idx) => (
-        <Colorbox key={color.id} name={color.name} id={color.id} format={color[format]} showLink={false} />
+        <Colorbox key={color.name} name={color.name} id={color.id} format={color[format]} showLink={false} />
     ));
     return (
-        <div className="Palette">
+        <div className="SingleColorPalette Palette">
             <Navbar changeFormat={changeFormat} />
             <div className="Palette-colors">
                 {colorBoxes}
+                <div className="Colorbox go-back">
+                    <span className="back-button" onClick={() => Navigate(-1)}>Go Back</span>
+                </div>
             </div>
             <PaletteFooter name={newPalette.paletteName} emoji={newPalette.emoji} />
         </div>
