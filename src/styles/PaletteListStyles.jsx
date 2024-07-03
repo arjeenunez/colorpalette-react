@@ -20,7 +20,12 @@ const MyNav = styled("nav")({
     display: "flex",
     width: "100%",
     justifyContent: "space-between",
-    color: "white"
+    color: "white",
+    alignItems: "baseline",
+    color: "white",
+    "a": {
+        color: "white", 
+    }
 })
 
 const Palettes = styled("div")({

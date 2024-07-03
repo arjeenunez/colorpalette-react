@@ -121,7 +121,6 @@ const CopyOverlayComponent = styled('div')(({ isCopied, backgroundColor }) => `
     background: ${backgroundColor};
 `,);
 
-
 export {
     ColorboxComponent,
     SpanComponentOne,
