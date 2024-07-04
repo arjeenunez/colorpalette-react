@@ -6,7 +6,7 @@ const DraggableColorBoxComponent = styled('div')(({ backgroundColor }) =>`
     margin: 0 auto;
     display: inline-block;
     position: relative;
-    cursor: pointer;
+    cursor: grab;
     margin-bottom: -3.5px;
     background: ${backgroundColor};
 

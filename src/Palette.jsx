@@ -1,32 +1,11 @@
-import React, { Component, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import Colorbox from "./Colorbox";
 import Navbar from "./Navbar";
 import PaletteFooter from "./PaletteFooter";
-import Seedpalette from "./Seedpalette";
-import generatePalette from "./Colorhelper";
 import { PaletteColorsComponent, PaletteComponent } from "./styles/PaletteStyles";
 
-function Palette() {
+function Palette({ palette, changeLevel, level, format, changeFormat, open, closeSnackBar, handleFormatChange }) {
 
-    // Setting up states
-
-    const [level, updateLevel] = useState(500);
-    const [format, updateFormat] = useState("hex");
-    
-    function changeLevel(newLevel) {
-        updateLevel(newLevel);
-    }
-
-    function changeFormat(newFormat) {
-        updateFormat(newFormat);
-    }
-
-    // Generating colors
-
-    const { id } = useParams();
-    const [chosenPalette] = Seedpalette.filter(el => el.id === id);
-    const palette = generatePalette(chosenPalette);
     const colors = palette.colors[level];
 
     const colorBoxes = colors.map((color, idx) => (
@@ -35,7 +14,15 @@ function Palette() {
     
     return (
         <PaletteComponent>
-            <Navbar level={level} changeLevel={changeLevel} changeFormat={changeFormat} />
+            <Navbar
+                level={level}
+                changeLevel={changeLevel}
+                changeFormat={changeFormat}
+                handleFormatChange={handleFormatChange}
+                open={open}
+                closeSnackBar={closeSnackBar}
+                format={format}
+            />
             <PaletteColorsComponent>
                 { colorBoxes }
             </PaletteColorsComponent>

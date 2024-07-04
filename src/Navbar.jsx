@@ -6,21 +6,8 @@ import { Close } from "@mui/icons-material"
 import { Link } from "react-router-dom";
 import { NavbarComponent, LogoComponent, SliderComponent, SelectContainerComponent } from "./styles/NavbarStyles";
 
-function Navbar({ level, changeLevel, changeFormat }) {
-
-    const [format, updateFormat] = useState("hex");
-    const [open, toggleOpen] = useState(false);
-
-    function handleFormatChange(evt) {
-        updateFormat(evt.target.value);
-        changeFormat(evt.target.value);
-        toggleOpen(true);
-    }
-    
-    function closeSnackBar(evt) {
-        toggleOpen(false);
-    }
-
+function Navbar({ level, changeLevel, format, open, handleFormatChange, closeSnackBar }) {
+    console.log(format);
     return (
         <NavbarComponent>
             <LogoComponent>
@@ -52,7 +39,7 @@ function Navbar({ level, changeLevel, changeFormat }) {
                     anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
                     open={open}
                     autoHideDuration={3000}
-                    message={<span id="message-id">Format has been changed to {format.toUpperCase()}</span>}
+                    message={<span id="message-id">Format has been changed to {format.toUpperCase()}!</span>}
                     ContentProps={{ "aria-describedby": "message-id" }}
                     onClose={closeSnackBar}
                     action={[
