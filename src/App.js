@@ -53,7 +53,7 @@ function App() {
         <div className="App">
             <Routes>
                 <Route exact path="/" element={<PaletteList palettes={palettes} />} />
-                <Route exact path="/palette/new" element={<NewPaletteForm />} />
+                <Route exact path="/palette/new" element={<NewPaletteForm palettes={palettes} changePalettes={changePalettes} />} />
                 <Route exact path="palette/:id" element={<PaletteComponent />} />
                 <Route exact path="palette/:paletteId/:colorId" element={<SingleColorPaletteComponent />} />
             </Routes>

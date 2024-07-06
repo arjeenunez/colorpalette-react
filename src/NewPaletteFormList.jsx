@@ -10,6 +10,7 @@ const Container = styled('div')`
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-content: flex-start;
 `;
 
 const NewPaletteFormList = ({ id, items, deleteFromColorArray }) => {

@@ -10,12 +10,15 @@ import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { arrayMove as dndKitArrayMove } from '@dnd-kit/sortable';
 import NewPaletteFormList from './NewPaletteFormList';
+import NewPaletteNav from './NewPaletteNav';
+import ColorPicker from './ColorPicker';
 
 const drawerWidth = 400;
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })(({ theme }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
+    // marginTop: '64px',
     height: 'calc(100vh - 64px)',
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
@@ -67,6 +70,35 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
+const DrawerContainer = styled('div')`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+`;
+
+const ColorPickerContainer = styled('div')`
+    margin-top: 2rem;
+    width: 100% !important;
+
+    .chrome-picker {
+        margin: auto;
+        width: 100% !important;
+    }
+`;
+
+const ColorPickerButton = styled(Button)`
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: 2rem;
+`;
+
+const InputComponent = styled(TextValidator)`
+    width: 100%;
+`;
+
 const arrayMove = (array, oldIndex, newIndex) => {
     return dndKitArrayMove(array, oldIndex, newIndex);
 };
@@ -77,13 +109,9 @@ export default function NewPaletteForm({ changePalettes, palettes, id }) {
     const [pickedColor, setPickedColor] = React.useState('purple');
     const [pickedColorName, setPickedColorName] = React.useState('');
     const [paletteName, setPaletteName] = React.useState('');
-    const [colorArray, setColorArray] = React.useState([
-        { name: 'Purple', color: 'purple' },
-        { name: 'Whatever', color: '#444' },
-        { name: 'Blue', color: 'blue' },
-        { name: 'Yellow', color: 'yellow' },
-    ]);
+    const [colorArray, setColorArray] = React.useState(palettes[0].colors);
     const Navigate = useNavigate();
+    const paletteFull = colorArray.length >= 20;
 
     const changePickedColor = currentColor => setPickedColor(currentColor.hex);
     const changePickedColorName = evt => setPickedColorName(evt.target.value);
@@ -103,6 +131,13 @@ export default function NewPaletteForm({ changePalettes, palettes, id }) {
         const paletteId = paletteName.toLowerCase().replaceAll(' ', '-');
         changePalettes({ paletteName: paletteName, id: paletteId, emoji: '😙', colors: colorArray });
         Navigate('/');
+    };
+
+    const clearColorArray = () => setColorArray([]);
+    const addRandomColorArray = () => {
+        const colorPool = palettes.flatMap(el => el.colors);
+        const randColorIdx = Math.floor(Math.random() * colorPool.length);
+        setColorArray([...colorArray, colorPool[randColorIdx]]);
     };
 
     React.useEffect(() => {
@@ -142,6 +177,7 @@ export default function NewPaletteForm({ changePalettes, palettes, id }) {
 
     return (
         <Box sx={{ display: 'flex' }}>
+            {/* <NewPaletteNav savePalette={savePalette} paletteName={paletteName} changePaletteName={changePaletteName} goBack={goBack} open={open} handleDrawerOpen={handleDrawerOpen} /> */}
             <CssBaseline />
             <AppBar position="fixed" color="default" open={open}>
                 <Toolbar>
@@ -195,22 +231,30 @@ export default function NewPaletteForm({ changePalettes, palettes, id }) {
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
-                <Typography variant="h4">Design your palette</Typography>
-                <Stack spacing={2} direction="row">
-                    <Button variant="contained" color="secondary">
-                        Clear Palette
-                    </Button>
-                    <Button variant="contained" color="primary">
-                        Random Color
-                    </Button>
-                </Stack>
-                <ChromePicker color={pickedColor} onChangeComplete={changePickedColor} />
-                <ValidatorForm onSubmit={changeColorArray}>
-                    <TextValidator onChange={changePickedColorName} value={pickedColorName} validators={['required', 'isColorNameUnique']} errorMessages={['This field is required', 'Color name must be unique']} />
-                    <Button type="submit" variant="contained" style={{ backgroundColor: pickedColor }}>
-                        Add new color!
-                    </Button>
-                </ValidatorForm>
+                <DrawerContainer>
+                    <Typography variant="h4" gutterBottom>
+                        Design your palette
+                    </Typography>
+                    <div>
+                        <Stack spacing={2} direction="row">
+                            <Button variant="contained" color="secondary" onClick={clearColorArray}>
+                                Clear Palette
+                            </Button>
+                            <Button variant="contained" color="primary" onClick={addRandomColorArray} disabled={paletteFull}>
+                                {!paletteFull ? 'Random Color' : 'Palette full!'}
+                            </Button>
+                        </Stack>
+                        <ColorPickerContainer>
+                            <ChromePicker color={pickedColor} onChangeComplete={changePickedColor} />
+                            <ValidatorForm onSubmit={changeColorArray}>
+                                <InputComponent margin="normal" variant="filled" size="small" onChange={changePickedColorName} value={pickedColorName} validators={['required', 'isColorNameUnique']} errorMessages={['This field is required', 'Color name must be unique']} />
+                                <ColorPickerButton type="submit" variant="contained" style={{ backgroundColor: `${!paletteFull ? pickedColor : 'lightgrey'}` }} disabled={paletteFull}>
+                                    {!paletteFull ? 'Add new color!' : 'Palette full!'}
+                                </ColorPickerButton>
+                            </ValidatorForm>
+                        </ColorPickerContainer>
+                    </div>
+                </DrawerContainer>
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
