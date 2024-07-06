@@ -5,8 +5,11 @@ import { Box, Drawer, CssBaseline, AppBar as MuiAppBar, Toolbar, Typography, Div
 import { AddToPhotos } from '@mui/icons-material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { ChromePicker } from 'react-color';
-import DraggableColorBox from './DraggableColorBox';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { arrayMove as dndKitArrayMove } from '@dnd-kit/sortable';
+import NewPaletteFormList from './NewPaletteFormList';
 
 const drawerWidth = 400;
 
@@ -64,29 +67,41 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-export default function NewPaletteForm({ changePalettes }) {
+const arrayMove = (array, oldIndex, newIndex) => {
+    return dndKitArrayMove(array, oldIndex, newIndex);
+};
+
+export default function NewPaletteForm({ changePalettes, palettes, id }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [pickedColor, setPickedColor] = React.useState('purple');
     const [pickedColorName, setPickedColorName] = React.useState('');
+    const [paletteName, setPaletteName] = React.useState('');
     const [colorArray, setColorArray] = React.useState([
         { name: 'Purple', color: 'purple' },
         { name: 'Whatever', color: '#444' },
+        { name: 'Blue', color: 'blue' },
+        { name: 'Yellow', color: 'yellow' },
     ]);
     const Navigate = useNavigate();
 
     const changePickedColor = currentColor => setPickedColor(currentColor.hex);
     const changePickedColorName = evt => setPickedColorName(evt.target.value);
+    const changePaletteName = evt => setPaletteName(evt.target.value);
     const goBack = () => Navigate(-1);
 
     const changeColorArray = () => {
         setColorArray([...colorArray, { name: pickedColorName, color: pickedColor }]);
         setPickedColorName('');
     };
+
+    const deleteFromColorArray = colorName => {
+        setColorArray([...colorArray.filter(color => color.name !== colorName)]);
+    };
+
     const savePalette = () => {
-        const newPaletteName = 'Test colors';
-        const newPaletteId = newPaletteName.toLowerCase().replace(/" "/g, '-');
-        changePalettes({ paletteName: newPaletteName, id: newPaletteId, emoji: '😙', colors: colorArray });
+        const paletteId = paletteName.toLowerCase().replaceAll(' ', '-');
+        changePalettes({ paletteName: paletteName, id: paletteId, emoji: '😙', colors: colorArray });
         Navigate('/');
     };
 
@@ -94,7 +109,10 @@ export default function NewPaletteForm({ changePalettes }) {
         ValidatorForm.addValidationRule('isColorNameUnique', value => {
             return colorArray.every(color => color.name.toLowerCase() !== value.toLowerCase());
         });
-    }, [pickedColorName]);
+        ValidatorForm.addValidationRule('isPaletteNameUnique', value => {
+            return palettes.every(({ paletteName }) => paletteName.toLowerCase() !== value.toLowerCase());
+        });
+    }, [pickedColorName, paletteName]);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -102,6 +120,24 @@ export default function NewPaletteForm({ changePalettes }) {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 10,
+            },
+        }),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = ({ active, over }) => {
+        const activeIndex = active.data.current.sortable.index; // Previous index in the array
+        const overIndex = over.data.current?.sortable.index || 0; // New index in the
+
+        setColorArray(colorArray => [...arrayMove(colorArray, activeIndex, overIndex)]);
     };
 
     return (
@@ -133,6 +169,12 @@ export default function NewPaletteForm({ changePalettes }) {
                             Save Palette
                         </Button>
                     </Stack>
+                    <ValidatorForm onSubmit={savePalette}>
+                        <Stack direction="row">
+                            <TextValidator size="small" variant="filled" value={paletteName} name="paletteName" onChange={changePaletteName} validators={['required', 'isPaletteNameUnique']} errorMessages={['This field is required', 'Palette name must be unique']} />
+                            <Button type="submit">Submit</Button>
+                        </Stack>
+                    </ValidatorForm>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -172,9 +214,9 @@ export default function NewPaletteForm({ changePalettes }) {
             </Drawer>
             <Main open={open}>
                 <DrawerHeader />
-                {colorArray.map(color => (
-                    <DraggableColorBox color={color.color} name={color.name} key={color.name} />
-                ))}
+                <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+                    <NewPaletteFormList id="ColorArray" items={colorArray} deleteFromColorArray={deleteFromColorArray} />
+                </DndContext>
             </Main>
         </Box>
     );

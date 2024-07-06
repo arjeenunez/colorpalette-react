@@ -6,6 +6,7 @@ import { Route, Routes, useParams } from 'react-router-dom';
 import PaletteList from './PaletteList';
 import SingleColorPalette from './SingleColorPalette';
 import NewPaletteForm from './NewPaletteForm';
+import { styled } from '@mui/material/styles';
 
 function App() {
     // Using states and related methods
@@ -52,7 +53,7 @@ function App() {
         <div className="App">
             <Routes>
                 <Route exact path="/" element={<PaletteList palettes={palettes} />} />
-                <Route exact path="/palette/new" element={<NewPaletteForm changePalettes={changePalettes} />} />
+                <Route exact path="/palette/new" element={<NewPaletteForm />} />
                 <Route exact path="palette/:id" element={<PaletteComponent />} />
                 <Route exact path="palette/:paletteId/:colorId" element={<SingleColorPaletteComponent />} />
             </Routes>
